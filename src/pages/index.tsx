@@ -1,7 +1,21 @@
 import Head from 'next/head'
 import { LockClosedIcon } from '@heroicons/react/solid'
+import { useForm } from 'react-hook-form'
+import { useAuth } from 'hooks/useAuth'
+
+type SignInSchema = {
+  email: string
+  password: string
+}
 
 export default function Home() {
+  const { signIn } = useAuth()
+  const { register, handleSubmit } = useForm<SignInSchema>()
+
+  function handleSignIn({ email, password }: SignInSchema) {
+    signIn({ email, password })
+  }
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <Head>
@@ -10,14 +24,10 @@ export default function Home() {
 
       <div className="max-w-sm w-full space-y-8">
         <div>
-          <img
-            className="mx-auto h-12 w-auto"
-            src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
-            alt="Workflow"
-          />
+          <img className="mx-auto h-12 w-auto" src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg" alt="Workflow" />
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Sign in to your account</h2>
         </div>
-        <form className="mt-8 space-y-6">
+        <form className="mt-8 space-y-6" onSubmit={handleSubmit(handleSignIn)}>
           <input type="hidden" name="remember" defaultValue="true" />
           <div className="rounded-md shadow-sm -space-y-px">
             <div>
@@ -25,6 +35,7 @@ export default function Home() {
                 Email address
               </label>
               <input
+                {...register('email')}
                 id="email-address"
                 name="email"
                 type="email"
@@ -39,6 +50,7 @@ export default function Home() {
                 Password
               </label>
               <input
+                {...register('password')}
                 id="password"
                 name="password"
                 type="password"
@@ -52,12 +64,7 @@ export default function Home() {
 
           <div className="flex items-center justify-between">
             <div className="flex items-center">
-              <input
-                id="remember_me"
-                name="remember_me"
-                type="checkbox"
-                className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
-              />
+              <input id="remember_me" name="remember_me" type="checkbox" className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded" />
               <label htmlFor="remember_me" className="ml-2 block text-sm text-gray-900">
                 Remember me
               </label>

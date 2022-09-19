@@ -1,33 +1,33 @@
 import { v4 as uuid } from 'uuid'
 
 type SignInRequestData = {
-  email: string;
-  password: string;
+  email: string
+  password: string
 }
 
-const delay = (amount = 750) => new Promise(resolve => setTimeout(resolve, amount))
+const mock = {
+  user: {
+    name: 'César',
+    email: 'cesar@email.com',
+    avatar_url: 'https://github.com/CesarCruz-lab.png',
+  },
+}
 
-export async function signInRequest(data: SignInRequestData) {
-  await delay()
+const delay = (amount: number) => new Promise(resolve => setTimeout(resolve, amount))
+
+export async function signInRequest({ email, password }: SignInRequestData) {
+  await delay(500)
 
   return {
     token: uuid(),
-    user: {
-      name: 'Diego Fernandes',
-      email: 'diego@rocketseat.com.br',
-      avatar_url: 'https://github.com/diego3g.png'
-    }
+    user: mock.user,
   }
 }
 
 export async function recoverUserInformation() {
-  await delay()
+  await delay(500)
 
   return {
-    user: {
-      name: 'Diego Fernandes',
-      email: 'diego@rocketseat.com.br',
-      avatar_url: 'https://github.com/diego3g.png'
-    }
+    user: mock.user,
   }
 }
